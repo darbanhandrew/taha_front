@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ShopListGQL, ShopListQuery} from 'src/generated/graphql';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  shopNodes: Observable<ShopListQuery['shopList']['edges']>;
 
-  constructor() {}
+  constructor(shopListGQL: ShopListGQL) {
+    this.shopNodes = shopListGQL.watch().valueChanges.pipe(map(result => result.data.shopList.edges));
+  }
 
 }

@@ -1,0 +1,17 @@
+query ShopList{
+  shopList
+  {
+    edges
+    {
+      node
+      {
+        id
+        title
+        image
+        url
+        commission
+        body
+      }
+    }
+  }
+}
