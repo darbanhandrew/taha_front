@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ShopListGQL, ShopListQuery} from 'src/generated/graphql';
+import { ReceiptGQL,ReceiptQuery, WalletGQL, WalletQuery} from 'src/generated/graphql';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -9,10 +9,23 @@ import {map} from 'rxjs/operators';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  shopNodes: Observable<ShopListQuery['shopList']['edges']>;
+  wallet: Observable<WalletQuery['walletList']['edges']>;
+  receipt: Observable<ReceiptQuery['affiliate']['receiptSet']['edges']>;
 
-  constructor(shopListGQL: ShopListGQL) {
-    this.shopNodes = shopListGQL.watch().valueChanges.pipe(map(result => result.data.shopList.edges));
+  constructor(walletGQL: WalletGQL , receiptGQL:ReceiptGQL) {
+    this.wallet = walletGQL.watch(
+      {
+        id:"V2FsbGV0Tm9kZTox"
+       }
+    ).valueChanges.pipe(map(result => result.data.walletList.edges));
+
+    this.receipt = receiptGQL.watch(
+    ).valueChanges.pipe(map(result => result.data.affiliate.receiptSet.edges));
   }
+
+
+  
+
+
 
 }

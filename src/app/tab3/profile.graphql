@@ -1,0 +1,14 @@
+query profile{
+  affiliateList(id:"QWZmaWxpYXRlTm9kZToy")
+ {
+  edges
+  {
+    node
+    {
+      title
+      image
+      body
+    }
+  }
+}
+}

@@ -1063,6 +1063,61 @@ export type RevokeToken = {
   errors?: Maybe<Scalars['ExpectedErrorType']>;
 };
 
+export type ProductQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ProductQuery = (
+  { __typename?: 'Query' }
+  & { product?: Maybe<(
+    { __typename?: 'ProductNode' }
+    & Pick<ProductNode, 'title' | 'id' | 'stock' | 'url' | 'image' | 'status' | 'price'>
+  )> }
+);
+
+export type PListQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PListQuery = (
+  { __typename?: 'Query' }
+  & { shop?: Maybe<(
+    { __typename?: 'ShopNode' }
+    & { productSet: (
+      { __typename?: 'ProductNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'ProductNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'ProductNode' }
+          & Pick<ProductNode, 'title' | 'id' | 'image' | 'url' | 'status' | 'price'>
+        )> }
+      )>> }
+    ) }
+  )> }
+);
+
+export type ReceiptQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReceiptQuery = (
+  { __typename?: 'Query' }
+  & { affiliate?: Maybe<(
+    { __typename?: 'AffiliateNode' }
+    & { receiptSet: (
+      { __typename?: 'RecieptNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'RecieptNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'RecieptNode' }
+          & Pick<RecieptNode, 'totalAmount' | 'affiliateAmount'>
+        )> }
+      )>> }
+    ) }
+  )> }
+);
+
 export type ShopListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1080,6 +1135,134 @@ export type ShopListQuery = (
   )> }
 );
 
+export type WalletQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type WalletQuery = (
+  { __typename?: 'Query' }
+  & { walletList?: Maybe<(
+    { __typename?: 'WalletNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'WalletNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'WalletNode' }
+        & Pick<WalletNode, 'id' | 'amount'>
+        & { relatedAffiliate: (
+          { __typename?: 'AffiliateNode' }
+          & Pick<AffiliateNode, 'title'>
+          & { receiptSet: (
+            { __typename?: 'RecieptNodeConnection' }
+            & { edges: Array<Maybe<(
+              { __typename?: 'RecieptNodeEdge' }
+              & { node?: Maybe<(
+                { __typename?: 'RecieptNode' }
+                & Pick<RecieptNode, 'totalAmount' | 'affiliateAmount'>
+              )> }
+            )>> }
+          ) }
+        ) }
+      )> }
+    )>> }
+  )> }
+);
+
+export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProfileQuery = (
+  { __typename?: 'Query' }
+  & { affiliateList?: Maybe<(
+    { __typename?: 'AffiliateNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'AffiliateNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'AffiliateNode' }
+        & Pick<AffiliateNode, 'title' | 'image' | 'body'>
+      )> }
+    )>> }
+  )> }
+);
+
+export const ProductDocument = gql`
+    query product($id: ID!) {
+  product(id: $id) {
+    title
+    id
+    stock
+    url
+    image
+    status
+    price
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ProductGQL extends Apollo.Query<ProductQuery, ProductQueryVariables> {
+    document = ProductDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PListDocument = gql`
+    query pList($id: ID!) {
+  shop(id: $id) {
+    productSet {
+      edges {
+        node {
+          title
+          id
+          image
+          url
+          status
+          price
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PListGQL extends Apollo.Query<PListQuery, PListQueryVariables> {
+    document = PListDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ReceiptDocument = gql`
+    query receipt {
+  affiliate(id: "QWZmaWxpYXRlTm9kZToy") {
+    receiptSet {
+      edges {
+        node {
+          totalAmount
+          affiliateAmount
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReceiptGQL extends Apollo.Query<ReceiptQuery, ReceiptQueryVariables> {
+    document = ReceiptDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ShopListDocument = gql`
     query ShopList {
   shopList {
@@ -1107,7 +1290,110 @@ export const ShopListDocument = gql`
       super(apollo);
     }
   }
+export const WalletDocument = gql`
+    query wallet($id: ID!) {
+  walletList(id: $id) {
+    edges {
+      node {
+        id
+        amount
+        relatedAffiliate {
+          title
+          receiptSet {
+            edges {
+              node {
+                totalAmount
+                affiliateAmount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
 
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class WalletGQL extends Apollo.Query<WalletQuery, WalletQueryVariables> {
+    document = WalletDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ProfileDocument = gql`
+    query profile {
+  affiliateList(id: "QWZmaWxpYXRlTm9kZToy") {
+    edges {
+      node {
+        title
+        image
+        body
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ProfileGQL extends Apollo.Query<ProfileQuery, ProfileQueryVariables> {
+    document = ProfileDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+
+export const Product = gql`
+    query product($id: ID!) {
+  product(id: $id) {
+    title
+    id
+    stock
+    url
+    image
+    status
+    price
+  }
+}
+    `;
+export const PList = gql`
+    query pList($id: ID!) {
+  shop(id: $id) {
+    productSet {
+      edges {
+        node {
+          title
+          id
+          image
+          url
+          status
+          price
+        }
+      }
+    }
+  }
+}
+    `;
+export const Receipt = gql`
+    query receipt {
+  affiliate(id: "QWZmaWxpYXRlTm9kZToy") {
+    receiptSet {
+      edges {
+        node {
+          totalAmount
+          affiliateAmount
+        }
+      }
+    }
+  }
+}
+    `;
 export const ShopList = gql`
     query ShopList {
   shopList {
@@ -1118,6 +1404,42 @@ export const ShopList = gql`
         image
         url
         commission
+        body
+      }
+    }
+  }
+}
+    `;
+export const Wallet = gql`
+    query wallet($id: ID!) {
+  walletList(id: $id) {
+    edges {
+      node {
+        id
+        amount
+        relatedAffiliate {
+          title
+          receiptSet {
+            edges {
+              node {
+                totalAmount
+                affiliateAmount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const Profile = gql`
+    query profile {
+  affiliateList(id: "QWZmaWxpYXRlTm9kZToy") {
+    edges {
+      node {
+        title
+        image
         body
       }
     }

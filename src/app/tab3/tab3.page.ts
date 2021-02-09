@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { map } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import { ProfileGQL, ProfileQuery } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-tab3',
@@ -6,7 +9,11 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  profile: Observable<ProfileQuery['affiliateList']['edges']>;
+  constructor(profileGQL: ProfileGQL ) {
 
-  constructor() {}
+    this.profile = profileGQL.watch(
+    ).valueChanges.pipe(map(result => result.data.affiliateList.edges));
+  }
 
 }

@@ -1,3 +1,29 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-row>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-row>
+  <!-- <ion-row> -->
+    <ion-tab-bar color = "primary" slot="bottom">
+      <ion-tab-button routerLink="/tabs/tab1">
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Shops</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button routerLink="/tabs/tab2">
+        <ion-icon name="wallet"></ion-icon>
+        <ion-label>Wallet</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button routerLink="/tabs/tab3">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Account</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button routerLink="/tabs/tab4">
+        <ion-icon name="logo-paypal"></ion-icon>
+        <ion-label>Transactions</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  <!-- </ion-row> -->
+  
 </ion-app>

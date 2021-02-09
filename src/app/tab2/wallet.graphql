@@ -1,0 +1,28 @@
+query wallet($id: ID!){
+  walletList(id:$id)
+  {
+     edges
+    {
+      node
+      {
+        id
+        amount
+        relatedAffiliate
+        {
+          title
+          receiptSet
+          {
+            edges
+            {
+              node
+              {
+                totalAmount
+                affiliateAmount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

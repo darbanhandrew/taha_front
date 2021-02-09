@@ -1,0 +1,20 @@
+query pList($id: ID!){
+  shop(id:$id)
+  {
+    productSet
+    {
+      edges
+      {
+        node
+        {
+          title
+          id
+          image
+          url
+          status
+          price
+        }
+      }
+    }
+  }
+}

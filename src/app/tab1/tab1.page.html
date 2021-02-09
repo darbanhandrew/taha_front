@@ -12,15 +12,15 @@
         Shops Page
       </ion-title>
     </ion-toolbar>
+    <ion-row *ngFor="let item of shopNodes | async">
+      <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.image" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
+    </ion-row>
+  <!-- <ion-row>
+    <app-shop-card></app-shop-card>
     
-  <ion-row>
-    <app-shop-card></app-shop-card>
   </ion-row>
   <ion-row>
     <app-shop-card></app-shop-card>
-  </ion-row>
-  <ion-row>
-    <app-shop-card></app-shop-card>
-  </ion-row>
+  </ion-row> -->
   <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
 </ion-content>
