@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'product-page',
     loadChildren: () => import('./product-page/product-page.module').then( m => m.ProductPagePageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   }
 ];
 @NgModule({

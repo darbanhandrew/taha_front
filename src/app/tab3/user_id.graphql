@@ -1,5 +1,5 @@
-query profile{
-userList(username:"root"){
+query user_id($username: String!){
+userList(username:$username){
   edges{
     node
     {
