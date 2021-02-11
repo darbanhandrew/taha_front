@@ -1,0 +1,41 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 4
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [fullscreen]="true">
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 3</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <!-- {{trans}} -->
+
+  <ion-toolbar>
+    <ion-title style="font-weight: bold; " class="ion-text-center">
+      Transactions
+    </ion-title>
+  </ion-toolbar>
+  <ion-row class="ion-padding-horizontal">
+    <ion-col>
+    <ion-list >
+      <ion-item *ngFor="let item of trans|async" style="--border-color:#13cd85;">
+        <ion-col size="4">Total : {{item.node.amount}}</ion-col>
+        <ion-col size="8"><ion-label>  {{item.node.createdAt}} </ion-label></ion-col>
+        <ion-note *ngIf="item.node.types=='A'" slot="end" color="primary"><ion-icon name="add" size="large" style="color:#13cd85;"></ion-icon></ion-note>
+        <ion-note *ngIf="item.node.types=='M'" slot="end" color="primary"><ion-icon name="remove" size="large" style="color:red;"></ion-icon></ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-col>
+  </ion-row>
+  
+
+
+
+  
+  <!-- <app-explore-container name="Tab 3 page"></app-explore-container> -->
+</ion-content>

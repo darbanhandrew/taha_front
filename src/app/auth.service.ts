@@ -29,7 +29,7 @@ export class AuthService {
     this.setusername(username);
   }
 
-  get isAuthenticated(): Observable {
+  get isAuthenticated() {
     return this._isAuthenticated.asObservable();
   }
 
@@ -42,8 +42,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem(USERNAME);
     localStorage.removeItem(AUTHTOKEN);
+    localStorage.removeItem(AFF_ID);
     this.username = null;
-
     this._isAuthenticated.next(false);
   }
 

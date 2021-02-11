@@ -681,26 +681,6 @@ export type PListQuery = (
   )> }
 );
 
-export type ReceiptQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ReceiptQuery = (
-  { __typename?: 'Query' }
-  & { affiliate?: Maybe<(
-    { __typename?: 'AffiliateNode' }
-    & { receiptSet: (
-      { __typename?: 'RecieptNodeConnection' }
-      & { edges: Array<Maybe<(
-        { __typename?: 'RecieptNodeEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'RecieptNode' }
-          & Pick<RecieptNode, 'totalAmount' | 'affiliateAmount'>
-        )> }
-      )>> }
-    ) }
-  )> }
-);
-
 export type ShopListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -725,56 +705,36 @@ export type WalletQueryVariables = Exact<{
 
 export type WalletQuery = (
   { __typename?: 'Query' }
-  & { walletList?: Maybe<(
-    { __typename?: 'WalletNodeConnection' }
-    & { edges: Array<Maybe<(
-      { __typename?: 'WalletNodeEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'WalletNode' }
-        & Pick<WalletNode, 'id' | 'amount'>
-        & { relatedAffiliate: (
-          { __typename?: 'AffiliateNode' }
-          & Pick<AffiliateNode, 'title'>
-          & { receiptSet: (
-            { __typename?: 'RecieptNodeConnection' }
-            & { edges: Array<Maybe<(
-              { __typename?: 'RecieptNodeEdge' }
-              & { node?: Maybe<(
-                { __typename?: 'RecieptNode' }
-                & Pick<RecieptNode, 'totalAmount' | 'affiliateAmount'>
-              )> }
-            )>> }
-          ) }
-        ) }
-      )> }
-    )>> }
-  )> }
-);
-
-export type ProfileQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProfileQuery = (
-  { __typename?: 'Query' }
-  & { userList?: Maybe<(
-    { __typename?: 'UserNodeConnection' }
-    & { edges: Array<Maybe<(
-      { __typename?: 'UserNodeEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'UserNode' }
-        & Pick<UserNode, 'username' | 'id'>
-        & { User: (
-          { __typename?: 'AffiliateNodeConnection' }
-          & { edges: Array<Maybe<(
-            { __typename?: 'AffiliateNodeEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'AffiliateNode' }
-              & Pick<AffiliateNode, 'id' | 'title'>
-            )> }
-          )>> }
-        ) }
-      )> }
-    )>> }
+  & { affiliate?: Maybe<(
+    { __typename?: 'AffiliateNode' }
+    & { walletSet: (
+      { __typename?: 'WalletNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'WalletNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'WalletNode' }
+          & Pick<WalletNode, 'amount'>
+        )> }
+      )>> }
+    ), transactionSet: (
+      { __typename?: 'TransactionNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'TransactionNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'TransactionNode' }
+          & Pick<TransactionNode, 'amount' | 'createdAt' | 'types'>
+        )> }
+      )>> }
+    ), receiptSet: (
+      { __typename?: 'RecieptNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'RecieptNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'RecieptNode' }
+          & Pick<RecieptNode, 'totalAmount' | 'affiliateAmount'>
+        )> }
+      )>> }
+    ) }
   )> }
 );
 
@@ -892,31 +852,6 @@ export const PListDocument = gql`
       super(apollo);
     }
   }
-export const ReceiptDocument = gql`
-    query receipt {
-  affiliate(id: "QWZmaWxpYXRlTm9kZToy") {
-    receiptSet {
-      edges {
-        node {
-          totalAmount
-          affiliateAmount
-        }
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ReceiptGQL extends Apollo.Query<ReceiptQuery, ReceiptQueryVariables> {
-    document = ReceiptDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const ShopListDocument = gql`
     query ShopList {
   shopList {
@@ -946,21 +881,28 @@ export const ShopListDocument = gql`
   }
 export const WalletDocument = gql`
     query wallet($id: ID!) {
-  walletList(id: $id) {
-    edges {
-      node {
-        id
-        amount
-        relatedAffiliate {
-          title
-          receiptSet {
-            edges {
-              node {
-                totalAmount
-                affiliateAmount
-              }
-            }
-          }
+  affiliate(id: $id) {
+    walletSet {
+      edges {
+        node {
+          amount
+        }
+      }
+    }
+    transactionSet {
+      edges {
+        node {
+          amount
+          createdAt
+          types
+        }
+      }
+    }
+    receiptSet {
+      edges {
+        node {
+          totalAmount
+          affiliateAmount
         }
       }
     }
@@ -973,37 +915,6 @@ export const WalletDocument = gql`
   })
   export class WalletGQL extends Apollo.Query<WalletQuery, WalletQueryVariables> {
     document = WalletDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ProfileDocument = gql`
-    query profile {
-  userList(username: "root") {
-    edges {
-      node {
-        username
-        User {
-          edges {
-            node {
-              id
-              title
-            }
-          }
-        }
-        id
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ProfileGQL extends Apollo.Query<ProfileQuery, ProfileQueryVariables> {
-    document = ProfileDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1098,20 +1009,6 @@ export const PList = gql`
   }
 }
     `;
-export const Receipt = gql`
-    query receipt {
-  affiliate(id: "QWZmaWxpYXRlTm9kZToy") {
-    receiptSet {
-      edges {
-        node {
-          totalAmount
-          affiliateAmount
-        }
-      }
-    }
-  }
-}
-    `;
 export const ShopList = gql`
     query ShopList {
   shopList {
@@ -1130,42 +1027,29 @@ export const ShopList = gql`
     `;
 export const Wallet = gql`
     query wallet($id: ID!) {
-  walletList(id: $id) {
-    edges {
-      node {
-        id
-        amount
-        relatedAffiliate {
-          title
-          receiptSet {
-            edges {
-              node {
-                totalAmount
-                affiliateAmount
-              }
-            }
-          }
+  affiliate(id: $id) {
+    walletSet {
+      edges {
+        node {
+          amount
         }
       }
     }
-  }
-}
-    `;
-export const Profile = gql`
-    query profile {
-  userList(username: "root") {
-    edges {
-      node {
-        username
-        User {
-          edges {
-            node {
-              id
-              title
-            }
-          }
+    transactionSet {
+      edges {
+        node {
+          amount
+          createdAt
+          types
         }
-        id
+      }
+    }
+    receiptSet {
+      edges {
+        node {
+          totalAmount
+          affiliateAmount
+        }
       }
     }
   }

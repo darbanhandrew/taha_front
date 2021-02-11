@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReceiptGQL,ReceiptQuery, WalletGQL, WalletQuery} from 'src/generated/graphql';
+import {WalletGQL, WalletQuery} from 'src/generated/graphql';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -9,17 +9,20 @@ import {map} from 'rxjs/operators';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  wallet: Observable<WalletQuery['walletList']['edges']>;
-  receipt: Observable<ReceiptQuery['affiliate']['receiptSet']['edges']>;
+  wallet: Observable<WalletQuery['affiliate']['walletSet']['edges']>;
+  receipt : Observable<WalletQuery['affiliate']['receiptSet']['edges']>;
 
-  constructor(walletGQL: WalletGQL , receiptGQL:ReceiptGQL) {
+  constructor(walletGQL: WalletGQL ) {
     this.wallet = walletGQL.watch(
       {
-        id:"V2FsbGV0Tm9kZTox"
+        id:localStorage.getItem("AFF_ID")
        }
-    ).valueChanges.pipe(map(result => result.data.walletList.edges));
-
-    this.receipt = receiptGQL.watch(
+    ).valueChanges.pipe(map(result => result.data.affiliate.walletSet.edges));
+    
+    this.receipt = walletGQL.watch(
+      {
+        id:localStorage.getItem("AFF_ID")
+       }
     ).valueChanges.pipe(map(result => result.data.affiliate.receiptSet.edges));
   }
 

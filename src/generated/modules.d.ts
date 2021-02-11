@@ -26,15 +26,6 @@ declare module '*/productlist.graphql' {
 }
     
 
-declare module '*/receipt.graphql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const receipt: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
 declare module '*/shopList.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -48,15 +39,6 @@ declare module '*/wallet.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const wallet: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/profile.graphql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const profile: DocumentNode;
 
   export default defaultDocument;
 }
