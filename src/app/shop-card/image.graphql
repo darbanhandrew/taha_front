@@ -1,0 +1,13 @@
+query image{
+  imageList{
+    edges
+    {
+      node
+      {
+        image
+        alt
+        
+      }
+    }
+  }
+}

@@ -7,13 +7,19 @@ query ShopList{
       {
         id
         title
-        image
         url
         commission
         body
-      }
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
+        }
     }
   }
 }
-
-
+}

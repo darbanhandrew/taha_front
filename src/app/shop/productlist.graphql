@@ -1,7 +1,7 @@
 query pList($id: ID!){
   shop(id:$id)
   {
-    image
+    
     title
     productSet
     {
@@ -11,7 +11,6 @@ query pList($id: ID!){
         {
           title
           id
-          image
           url
           status
           price

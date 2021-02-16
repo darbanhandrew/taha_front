@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import { ProductQuery,ProductGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-product-page',
@@ -27,21 +26,21 @@ export class ProductPagePage implements OnInit {
 
 
   id:any;
-  product: Observable<ProductQuery>;
+  // product: Observable<ProductQuery>;
   
-  constructor(private route: ActivatedRoute, private router: Router,productGQL: ProductGQL) { 
+  constructor() { 
     
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.id = this.router.getCurrentNavigation().extras.state.p_id;
-      }
-    });
-    this.product = productGQL.watch(
-      {
-       id:this.id
-      }
-    )
-    .valueChanges.pipe(map(result => result.data));
+    // this.route.queryParams.subscribe(params => {
+    //   if (this.router.getCurrentNavigation().extras.state) {
+    //     this.id = this.router.getCurrentNavigation().extras.state.p_id;
+    //   }
+    // });
+    // this.product = productGQL.watch(
+    //   {
+    //    id:this.id
+    //   }
+    // )
+    // .valueChanges.pipe(map(result => result.data));
  
     
     // this.product = productGQL.watch(

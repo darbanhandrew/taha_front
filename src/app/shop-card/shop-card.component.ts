@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { DataService } from './../data.service';
+import { ImageQuery, ImageGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-shop-card',
@@ -12,12 +13,28 @@ import { DataService } from './../data.service';
 export class ShopCardComponent implements OnInit {
 
   @Input() title:any;
-  @Input() image:any;
+  @Input() image:Observable<ImageQuery['imageList']['edges']>;
   @Input() url:any;
   @Input() id:any;
   @Input() comis:any;
+  src:any;
+  alt:any;
   
-  constructor(private dataService: DataService,private navCtrl:NavController) { }
+  constructor(private dataService: DataService,private navCtrl:NavController,imageGQL:ImageGQL) { 
+    // this.image.subscribe(
+    //   next=>
+    //   {
+    //     console.log(next[0].node.images.edges[0].node.image)
+    //   }
+    // );
+    imageGQL.watch().valueChanges.subscribe(
+      next=>
+      {
+        this.src = next.data.imageList.edges[0].node.image ;
+        this.alt = next.data.imageList.edges[0].node.alt ;
+      }
+    )
+  }
 
   ngOnInit() {}
 

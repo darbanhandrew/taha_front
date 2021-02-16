@@ -4,12 +4,11 @@ userList(username:$username){
     node
     {
       username
-      User {
+      affiliateSet {
         edges {
           node {
             id
             title
-            image
           }
         }
       }

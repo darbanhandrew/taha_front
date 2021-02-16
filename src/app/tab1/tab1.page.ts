@@ -13,6 +13,8 @@ export class Tab1Page {
   shopNodes: Observable<ShopListQuery['shopList']['edges']>;
   constructor(shopListGQL: ShopListGQL) {
     this.shopNodes = shopListGQL.watch().valueChanges.pipe(map(result => result.data.shopList.edges));
+    
   }
+  
   
 }
