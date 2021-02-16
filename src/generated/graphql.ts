@@ -668,6 +668,7 @@ export type PListQuery = (
   { __typename?: 'Query' }
   & { shop?: Maybe<(
     { __typename?: 'ShopNode' }
+    & Pick<ShopNode, 'image' | 'title'>
     & { productSet: (
       { __typename?: 'ProductNodeConnection' }
       & { edges: Array<Maybe<(
@@ -758,7 +759,7 @@ export type User_IdQuery = (
             { __typename?: 'AffiliateNodeEdge' }
             & { node?: Maybe<(
               { __typename?: 'AffiliateNode' }
-              & Pick<AffiliateNode, 'id' | 'title'>
+              & Pick<AffiliateNode, 'id' | 'title' | 'image'>
             )> }
           )>> }
         ) }
@@ -826,6 +827,8 @@ export const ProductDocument = gql`
 export const PListDocument = gql`
     query pList($id: ID!) {
   shop(id: $id) {
+    image
+    title
     productSet {
       edges {
         node {
@@ -931,6 +934,7 @@ export const User_IdDocument = gql`
             node {
               id
               title
+              image
             }
           }
         }
@@ -994,6 +998,8 @@ export const Product = gql`
 export const PList = gql`
     query pList($id: ID!) {
   shop(id: $id) {
+    image
+    title
     productSet {
       edges {
         node {
@@ -1066,6 +1072,7 @@ export const User_Id = gql`
             node {
               id
               title
+              image
             }
           }
         }

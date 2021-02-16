@@ -5,6 +5,9 @@ import {map} from 'rxjs/operators';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { stringify } from '@angular/compiler/src/util';
 import {DataService} from './../data.service'
+import { AlertController, ToastController } from '@ionic/angular';
+// import {ProductCardComponent} from './../product-card';
+// import { ProductCardComponent } from '../product-card/product-card.component';
 
 
 @Component({
@@ -14,11 +17,15 @@ import {DataService} from './../data.service'
 })
 export class ShopPage implements OnInit {
   filter:any;
+  shop_title:any;
+  shop_image:any;
   link_state :boolean=false;
    productNodes: Observable<PListQuery['shop']['productSet']['edges']>;
+   shop_details: Observable<PListQuery['shop']>;
    productVariables : any;
    
-   constructor(productListGQL: PListGQL,private route: ActivatedRoute,private dataService: DataService , private router:Router) {
+   constructor(productListGQL: PListGQL,private route: ActivatedRoute,private dataService: DataService , private router:Router , private toastcontroller:ToastController
+    ) {
   //   this.route.queryParams.subscribe(params => {{{item}}
   //     this.productVariables = params["id"];
   //     let a =decodeURIComponent(JSON.parse(this.filter));
@@ -35,6 +42,15 @@ export class ShopPage implements OnInit {
         }
       )
       .valueChanges.pipe(map(result => result.data.shop.productSet.edges));
+      productListGQL.watch(
+        {
+          id:params.id
+        }
+      ).valueChanges.subscribe(next=>
+        {
+          this.shop_title = next.data.shop.title;
+          this.shop_image = next.data.shop.image;
+        })
       // console.log(this.filter.totring())
     // }
   });
@@ -46,7 +62,7 @@ export class ShopPage implements OnInit {
    
 
   ngOnInit() {
-    navigator.clipboard
+    // navigator.clipboard
     // console.log(this.productNodes)
   //   let sub = this.route.params.subscribe(params => {
   //     this.id = params['id']; 
@@ -66,15 +82,29 @@ export class ShopPage implements OnInit {
     // };
     // this.router.navigate(['/product-page'], navigationExtras);
     // navigator.clipboard)
+    // this.pcard.coy();
   }
+  
   async copy(text) {
     if (navigator.clipboard) {
       try {
         // console.log(this.link_state);
-        this.link_state=true;
+        // this.link_state=!this.link_state;
         await navigator.clipboard.writeText(text);
+        this.presentToast();
       } catch (err) {}
     }
     // this.link_state=false;
   }
+
+
+  async presentToast() {
+    const toast = await this.toastcontroller.create({
+      message: 'Link Copied !',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+
 }

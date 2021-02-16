@@ -27,6 +27,7 @@ export class LoginPage implements OnInit {
   token:any;
   username:any;
   login: LoginMutation['tokenAuth'];
+  is_TextFieldType:boolean=false;
   constructor(private authService: AuthService,private apollo: Apollo , private loginGQL:LoginGQL , private router:Router,public loadingcontroller:LoadingController) { 
      
   }
@@ -69,4 +70,12 @@ async confirm(){
     );
   }
 
+  MakeAccount(){
+    this.router.navigate(['/register'])
+  }
+
+
+  togglePasswordFieldType(){
+    this.is_TextFieldType = ! this.is_TextFieldType;
+  }
 }

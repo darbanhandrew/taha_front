@@ -7,12 +7,15 @@
 </ion-header> -->
 
 <ion-content [fullscreen]="true">
-    <ion-toolbar>
-      <ion-title style="font-weight: bold; " class="ion-text-center">
-        Shops Page
+  <!-- <div style="--ion-background-color:red;"> -->
+    <ion-toolbar  style="--ion-background-color:#57ca12;">
+      <ion-title style="font-weight: bold; color:white;" class="ion-text-center">
+        فروشگاه ها
       </ion-title>
-    </ion-toolbar>
-    <ion-row *ngFor="let item of shopNodes | async">
+    </ion-toolbar >
+  <!-- </div> -->
+
+    <ion-row *ngFor="let item of shopNodes | async" class="ion-padding-top">
       <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.image" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
     </ion-row>
   <!-- <ion-row>

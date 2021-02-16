@@ -14,29 +14,60 @@
   </ion-header> -->
 
   <!-- <ion-grid > -->
-    <ion-row>
-        <ion-col class="ion-text-center">
-          <!-- <ion-label> -->
-            <h2 style="color: #161d6f;">
-              {{aff_title}}
-            </h2>
-          <!-- </ion-label> -->
+    <div class="img_conn" style=" background-color:#c7ffd8;">
+      <ion-toolbar style="--ion-background-color:#c7ffd8;">
+      <ion-title style="text-align: center;">
+        Profile
+      </ion-title>
+    </ion-toolbar>
+    
+      <ion-row class="ion-justify-content-center" >
+        <ion-col size="4" class="vertical-align-content" >
+          <img src="https://shaya.liara.run/media/{{aff_image}}" alt="" style=" height: 15vh; width: 20vh;">
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="ion-text-center">
-          <ion-button shape="round"  style="width: 10em; --background:#161d6f;">
-            Edit Profile
-          </ion-button>
+        
+             <!-- <h1 style="height:5vh; color: #161d6f;">  -->
+              <ion-label style="height:5vh; color: #161d6f;">
+              Amir Naeeni<!-- {{aff_title}} -->
+              </ion-label>
+             <!-- </h1>  -->
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <ion-button shape="round" (click)="logout()" style="width: 10em; --background:#161d6f;">
-            Logout
-          </ion-button>
-        </ion-col>
-      </ion-row>
+      
+      
+      
+    </div>
+      <div class="img_conn1" style="background-color:#ffffff;">
+        <ion-row class="ion-justify-content-center" >
+          <ion-col size="6" class="vertical-align-content" style="margin-top: -5em; height: 10em; ">
+            <ion-button shape="round"  style="height: 4vh; --background:#161d6f;">
+              <ion-label style="padding-right: 0.5em;">
+                ویرایش
+              </ion-label>
+              <ion-icon name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="vertical-align-content" style="margin-top: -5em; height: 10em; ">
+            <ion-button shape="round" (click)="logout()" style="height: 4vh; --background:#161d6f;">
+              <ion-label style="padding-right: 0.5em;">
+                خروج 
+              </ion-label>
+               <ion-icon name="log-out-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <!-- <ion-row class="ion-padding-horizontal" style="padding-top: 1vh;">
+          <ion-col size="6" class="ion-text-center">
+            
+          </ion-col>
+          <ion-col size="6" class="ion-text-center">
+            
+          </ion-col>
+        </ion-row> -->
+      </div>
   <!-- </ion-grid> -->
   <!-- {{name}} -->
   <!-- {{aff_title}} -->

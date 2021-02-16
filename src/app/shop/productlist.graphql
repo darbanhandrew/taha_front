@@ -1,6 +1,8 @@
 query pList($id: ID!){
   shop(id:$id)
   {
+    image
+    title
     productSet
     {
       edges

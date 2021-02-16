@@ -61,6 +61,7 @@ export class Tab3Page implements OnInit {
               this.aff_title = b.node.User.edges[0].node.title;
               this.aff_status = b.node.User.edges[0].node.status;
               this.aff_image = b.node.User.edges[0].node.image;
+              console.log(this.aff_image);
               // console.log(this.aff_title)
             }
           );

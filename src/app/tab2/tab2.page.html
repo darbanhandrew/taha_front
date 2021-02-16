@@ -7,6 +7,11 @@
 </ion-header> -->
 
 <ion-content [fullscreen]="true">
+  <ion-toolbar style="--ion-background-color:#57ca12;">
+    <ion-title class="ion-text-center" style="font-weight:bold; color: white;">
+      کیف پول
+    </ion-title>
+  </ion-toolbar>
   <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Tab 2</ion-title>
@@ -27,53 +32,66 @@
         </ion-label>
     </ion-col>
   </ion-row> -->
-
-  <ion-toolbar>
-    <ion-title style="font-weight: bold; " class="ion-text-center">
-      Wallet
-    </ion-title>
-  </ion-toolbar>
-  <div *ngFor="let item of wallet|async" >
-  <ion-row class="ion-padding">
-    <ion-col class="ion-text-center">
-    <ion-label>
-      Current Balance
-    </ion-label>
-  </ion-col>
-  </ion-row>
-    <div class="col-md-4 block">
-      <p class="circle2"><span>{{item.node.amount}}</span></p>
+  <!-- <div class="img_conn" style="background-color:#ffffff;"> -->
+    <!-- <div *ngFor="let item of wallet|async" > -->
+    <ion-row class="ion-padding">
+      <!-- <ion-col class="ion-text-center">
+      <ion-label >
+        <h1>
+         موجودی کیف پول
+        </h1>
+      </ion-label>
+    </ion-col> -->
+    </ion-row>
+      <div class="col-md-4 block">
+        <p class="circle2"><span style="color:#ffffff;">{{amount}}<br> R</span></p>
+    <!-- </div> -->
+    
+    <ion-row class="ion-padding">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button style="font-weight: bold; --background:#00a750;">
+          ثبت درخواست
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </div>
-  
-  <ion-row class="ion-padding">
-    <ion-col size="12" class="ion-text-center">
-      <ion-button style="--background:#13cd85;">
-        New Payment
-      </ion-button>
-    </ion-col>
-  </ion-row>
   <!-- </div> -->
-  <ion-row>
-  </ion-row>
+  <!-- <div class="img_conn1" style="background-color:#ffffff;"> -->
+    
+    <ion-row class="ion-padding-horizontal" style="padding-top: 1.5em;">
+      <ion-col>
+        <h2 style="--ion-background-color: #f6f6f6;"><span>رسید ها</span></h2>
+<!-- <p>this is some content other</p> -->
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-horizontal">
+      <ion-col>
+      <ion-list >
+        <ion-list-header class="ion-padding-horizontal">
+          <ion-col class="ion-text-center" size="5">
+            مبلغ کل
+          </ion-col>
+          <ion-col class="ion-text-center" size="5">
+            کمیسیون
+          </ion-col>
+          <ion-col class="ion-text-center" size="2">
+            
+          </ion-col>
+        </ion-list-header>
+        <ion-item *ngFor="let item of receipt|async" style=" --border-color:#13cd85; " >
+          <!-- <ion-row  style="width: 100%;">  -->
+            <ion-col class="ion-text-center" size="5"> {{item.node.totalAmount.toLocaleString('en-us')}} ریال</ion-col>
+            <ion-col class="ion-text-center" size="5"> {{item.node.affiliateAmount.toLocaleString('en-us')}} ریال</ion-col>
+            <ion-col class="ion-text-center" size="2"><ion-icon name="checkmark" size="large" style="color:#13cd85;"></ion-icon></ion-col>  
+          <!-- </ion-row> -->
+          
+          
+        </ion-item>
+      </ion-list>
+    </ion-col>
+    </ion-row>
+  <!-- </div> -->
   
-
-  <ion-row class="ion-padding-horizontal">
-    <ion-col>
-    <ion-list >
-      <!-- <ion-list-header>
-        Notes
-      </ion-list-header> -->
-      <ion-item *ngFor="let item of receipt|async" style="--border-color:#13cd85;">
-        <ion-col size="6">Total : {{item.node.totalAmount}}</ion-col>
-        <ion-col size="6"><ion-label>  Affiliate : {{item.node.affiliateAmount}} </ion-label></ion-col>
-        <ion-note slot="end" color="primary"><ion-icon name="checkmark" size="large" style="color:#13cd85;"></ion-icon></ion-note>
-        
-        
-      </ion-item>
-    </ion-list>
-  </ion-col>
-  </ion-row>
-</div>
 
   <!-- <app-explore-container name="Tab 2 page"></app-explore-container> -->
 </ion-content>

@@ -5,26 +5,51 @@
 </ion-header> -->
 
 <ion-content>
-<ion-row *ngFor="let item of productNodes|async" >
-  <ion-col >
-<!-- {{item.node.image}} -->
-<!-- <ion-button (click)="goto_product(item.node.id)"></ion-button> -->
-<!-- {{item.node.title}} -->
+  <!-- <ion-grid> -->
+  <!-- <ion-row class="grad img_conn"> -->
+  <div class="img_conn" style="background-color: #c7ffd8;">
+    <ion-toolbar style="--ion-background-color:transparent">
+      <ion-title style="font-weight: bold; " class="ion-text-center">
+        محصولات
+      </ion-title>
+    </ion-toolbar>
 
-<app-product-card [image] = "item.node.image" [title] = "item.node.title" [url]="item.node.url" [price]="item.node.price"></app-product-card>
-</ion-col>
-</ion-row>
-<ion-row *ngFor="let item of productNodes|async" style="margin-top: -2.5em;">
-  <ion-col class="ion-text-center">
-  <ion-button style="--background:#13cd85;" (click)="copy(item.node.url)">
-    <ion-label *ngIf="link_state">
-      Copied
-    </ion-label>
-    <ion-label *ngIf = "!link_state">
-      Copy This Link
-    </ion-label>
-  </ion-button>
-  
-</ion-col>
-</ion-row>
+    <ion-row class="ion-padding">
+      <ion-col class="ion-text-center">
+        {{shop_title}}
+      </ion-col>
+    </ion-row>
+  </div>
+<!-- </ion-row> -->
+  <div class="img_conn1" style="background-color:#f6f6f6;">
+    <ion-row class="ion-justify-content-center" >
+      <ion-col size="4" class="vertical-align-content" style="margin-top: -5em; height: 10em; ">
+        <img src={{shop_image}} alt="">
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let item of productNodes|async" style="margin-top: -1em;">
+      <ion-col >
+    <!-- {{item.node.image}} -->
+    <!-- <ion-button (click)="goto_product(item.node.id)"></ion-button> -->
+    <!-- {{item.node.title}} -->
+    
+    <app-product-card [image] = "item.node.image" [title] = "item.node.title" [url]="item.node.url" [price]="item.node.price"></app-product-card>
+    </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let item of productNodes|async" style="margin-top: -2.5em;">
+      <ion-col class="ion-text-center">
+      <ion-button style="--background:#00a750;" (click)="copy(item.node.url)">
+        <ion-label *ngIf="link_state">
+          کپی شد
+        </ion-label>
+        <ion-label *ngIf = "!link_state">
+         ! لینک را کپی کن
+        </ion-label>
+      </ion-button>
+      
+    </ion-col>
+    </ion-row>
+  </div>
+    
+<!-- </ion-grid> -->
 </ion-content>

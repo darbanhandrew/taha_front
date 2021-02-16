@@ -1,0 +1,34 @@
+// ion-content{
+//     background-image:#c7ffd8;
+//     background-size: 100% 50%, 100% 50%;
+//     background-repeat: no-repeat,repeat;
+// }
+
+.img_conn{
+    height: 25vh;
+    width: 100%;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    // background-image: linear-gradient(#00a750,#57ca12);
+}
+
+.img_conn1{
+    height: 75vh;
+    width: 100%;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.my-custom-class .alert-button{
+    text-align: right;
+}
+
+.grad{
+    --ion-background-color: #000fff;
+}
+
+.toast-container{
+    background-color: white;
+}
