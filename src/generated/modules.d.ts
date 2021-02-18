@@ -8,10 +8,10 @@ declare module '*/login.graphql' {
 }
     
 
-declare module '*/product.graphql' {
+declare module '*/image.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const product: DocumentNode;
+  export const image: DocumentNode;
 
   export default defaultDocument;
 }
@@ -21,6 +21,15 @@ declare module '*/productlist.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const pList: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/shop_filter.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const shop_filter: DocumentNode;
 
   export default defaultDocument;
 }

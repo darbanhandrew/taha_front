@@ -1,0 +1,25 @@
+query shop_filter($title: String!){
+  shopList(title:$title)
+  {
+    edges
+    {
+      node
+      {
+        id
+        title
+        url
+        commission
+        body
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
+        }
+    }
+  }
+}
+}

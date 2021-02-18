@@ -1,19 +1,39 @@
 query pList($id: ID!){
   shop(id:$id)
   {
-    
     title
+    images
+    {
+      edges
+      {
+        node
+        {
+          image
+          alt
+        }
+      }
+    }
     productSet
     {
       edges
       {
         node
         {
-          title
+           title
           id
           url
           status
           price
+          images
+          {
+            edges{
+              node
+              {
+                image
+                alt
+              }
+            }
+          }
         }
       }
     }

@@ -15,9 +15,25 @@
     </ion-toolbar >
   <!-- </div> -->
 
+  <ion-row class='ion-padding-horizontal' >
+    <ion-col class="ion-text-center" >
+      <ion-searchbar  (click)="search()" [(ngModel)]="search_str" style="--ion-background-color:#ffffff;" class="ion-text-right" placeholder="جستجو کنید"></ion-searchbar>
+    </ion-col>
+  </ion-row>
+  <div *ngIf="search_bool==false" >
     <ion-row *ngFor="let item of shopNodes | async" class="ion-padding-top">
+      <ion-col>
       <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.images['edges']" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
+    </ion-col>
     </ion-row>
+  </div>
+  <div *ngIf="search_bool==true" >
+    <ion-row *ngFor="let item of shop_filtered | async" class="ion-padding-top">
+      <ion-col>
+      <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.images['edges']" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
+    </ion-col>
+    </ion-row>
+  </div>
   <!-- <ion-row>
     <app-shop-card></app-shop-card>
     

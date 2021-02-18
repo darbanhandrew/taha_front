@@ -71,7 +71,7 @@
         </ion-col>
       </ion-row>
       <ion-item class="ion-padding-horizontal">
-        <ion-input class="ion-text-right" [(ngModel)]="id" placeholder="شماره تماس"></ion-input>
+        <ion-input  [(ngModel)]="id" placeholder="شماره تماس"></ion-input>
       </ion-item>
       <ion-row class="ion-padding-top ion-padding-horizontal">
         <ion-col class="ion-text-right">
@@ -82,8 +82,8 @@
       </ion-row>
       <!-- <ion-row class="ion-padding-horizontal"> -->
       <ion-item class="ion-padding-horizontal">
+        <ion-input  [(ngModel)]="pass" placeholder="رمز عبور" [type]="is_TextFieldType ? 'text' : 'password'"></ion-input>
         <ion-icon style='color:#004a73'[name]="is_TextFieldType ? 'eye-off' : 'eye'" (click)="togglePasswordFieldType()"></ion-icon>
-        <ion-input class="ion-text-right" [(ngModel)]="pass" placeholder="رمز عبور" [type]="is_TextFieldType ? 'text' : 'password'"></ion-input>
       </ion-item>
       <!-- <ion-row class="ion-padding-top ion-padding-horizontal">
         <ion-col class="ion-text-right">

@@ -55,13 +55,14 @@ export class Tab3Page implements OnInit {
               let data = JSON.stringify(next)
               let a = JSON.parse(data);
               let b = a[0];
-              let c = b.node.User.edges[0].node.id;
-              localStorage.setItem(AFF_ID,c);
-              // console.log(c)
-              this.aff_title = b.node.User.edges[0].node.title;
-              this.aff_status = b.node.User.edges[0].node.status;
-              this.aff_image = b.node.User.edges[0].node.image;
-              console.log(this.aff_image);
+              let c = b.node.affiliateSet.edges[0].node;
+              console.log(b.node)
+              // localStorage.setItem(AFF_ID,c);
+              // // console.log(c)
+              this.aff_title = c.title;
+              this.aff_status = c.status;
+              // this.aff_image = b.node.User.edges[0].node.image;
+              // console.log(this.aff_image);
               // console.log(this.aff_title)
             }
           );

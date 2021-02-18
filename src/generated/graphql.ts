@@ -34,6 +34,9 @@ export type Query = {
   shop?: Maybe<ShopNode>;
   shopList?: Maybe<ShopNodeConnection>;
   /** The ID of the object */
+  image?: Maybe<ImageNode>;
+  imageList?: Maybe<ImageNodeConnection>;
+  /** The ID of the object */
   affiliate?: Maybe<AffiliateNode>;
   affiliateList?: Maybe<AffiliateNodeConnection>;
   /** The ID of the object */
@@ -54,7 +57,7 @@ export type Query = {
   /** The ID of the object */
   user?: Maybe<UserNode>;
   userList?: Maybe<UserNodeConnection>;
-  getProduct?: Maybe<Scalars['String']>;
+  getProduct?: Maybe<ShopNode>;
 };
 
 
@@ -72,6 +75,23 @@ export type QueryShopListArgs = {
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryImageArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryImageListArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  wooId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -188,6 +208,11 @@ export type QueryUserListArgs = {
   username?: Maybe<Scalars['String']>;
 };
 
+
+export type QueryGetProductArgs = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type ShopNode = Node & {
   __typename?: 'ShopNode';
   /** The ID of the object. */
@@ -195,7 +220,6 @@ export type ShopNode = Node & {
   title: Scalars['String'];
   body: Scalars['String'];
   slug: Scalars['String'];
-  image: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -204,7 +228,23 @@ export type ShopNode = Node & {
   email: Scalars['String'];
   shopManager: UserNode;
   commission: Scalars['Int'];
+  consumerKey?: Maybe<Scalars['String']>;
+  consumerSecret?: Maybe<Scalars['String']>;
+  lastSyncTime?: Maybe<Scalars['DateTime']>;
+  images: ImageNodeConnection;
   productSet: ProductNodeConnection;
+};
+
+
+export type ShopNodeImagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  wooId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -253,7 +293,7 @@ export type UserNode = Node & {
   isActive: Scalars['Boolean'];
   dateJoined: Scalars['DateTime'];
   shopSet: ShopNodeConnection;
-  User: AffiliateNodeConnection;
+  affiliateSet: AffiliateNodeConnection;
 };
 
 
@@ -269,7 +309,7 @@ export type UserNodeShopSetArgs = {
 };
 
 
-export type UserNodeUserArgs = {
+export type UserNodeAffiliateSetArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
@@ -334,7 +374,6 @@ export type AffiliateNode = Node & {
   title: Scalars['String'];
   body: Scalars['String'];
   slug: Scalars['String'];
-  image: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -441,7 +480,6 @@ export type ProductNode = Node & {
   title: Scalars['String'];
   body: Scalars['String'];
   slug: Scalars['String'];
-  image: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -450,6 +488,8 @@ export type ProductNode = Node & {
   stock?: Maybe<Scalars['Int']>;
   price?: Maybe<Scalars['Int']>;
   categories: CategoryNodeConnection;
+  wooId?: Maybe<Scalars['Int']>;
+  images: ImageNodeConnection;
   receiptSet: RecieptNodeConnection;
 };
 
@@ -462,6 +502,18 @@ export type ProductNodeCategoriesArgs = {
   last?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+};
+
+
+export type ProductNodeImagesArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  wooId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -530,6 +582,62 @@ export type ProductNodeEdge = {
   node?: Maybe<ProductNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type ImageNodeConnection = {
+  __typename?: 'ImageNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ImageNodeEdge>>;
+};
+
+/** A Relay edge containing a `ImageNode` and its cursor. */
+export type ImageNodeEdge = {
+  __typename?: 'ImageNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<ImageNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type ImageNode = Node & {
+  __typename?: 'ImageNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  image: Scalars['String'];
+  wooId?: Maybe<Scalars['Int']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name?: Maybe<Scalars['String']>;
+  alt?: Maybe<Scalars['String']>;
+  originalSrc?: Maybe<Scalars['String']>;
+  shopSet: ShopNodeConnection;
+  productSet: ProductNodeConnection;
+};
+
+
+export type ImageNodeShopSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+};
+
+
+export type ImageNodeProductSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
 };
 
 export type TransactionNodeConnection = {
@@ -646,16 +754,20 @@ export type LoginMutation = (
   )> }
 );
 
-export type ProductQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
+export type ImageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductQuery = (
+export type ImageQuery = (
   { __typename?: 'Query' }
-  & { product?: Maybe<(
-    { __typename?: 'ProductNode' }
-    & Pick<ProductNode, 'title' | 'id' | 'stock' | 'url' | 'image' | 'status' | 'price'>
+  & { imageList?: Maybe<(
+    { __typename?: 'ImageNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'ImageNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'ImageNode' }
+        & Pick<ImageNode, 'image' | 'alt'>
+      )> }
+    )>> }
   )> }
 );
 
@@ -668,17 +780,65 @@ export type PListQuery = (
   { __typename?: 'Query' }
   & { shop?: Maybe<(
     { __typename?: 'ShopNode' }
-    & Pick<ShopNode, 'image' | 'title'>
-    & { productSet: (
+    & Pick<ShopNode, 'title'>
+    & { images: (
+      { __typename?: 'ImageNodeConnection' }
+      & { edges: Array<Maybe<(
+        { __typename?: 'ImageNodeEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'ImageNode' }
+          & Pick<ImageNode, 'image' | 'alt'>
+        )> }
+      )>> }
+    ), productSet: (
       { __typename?: 'ProductNodeConnection' }
       & { edges: Array<Maybe<(
         { __typename?: 'ProductNodeEdge' }
         & { node?: Maybe<(
           { __typename?: 'ProductNode' }
-          & Pick<ProductNode, 'title' | 'id' | 'image' | 'url' | 'status' | 'price'>
+          & Pick<ProductNode, 'title' | 'id' | 'url' | 'status' | 'price'>
+          & { images: (
+            { __typename?: 'ImageNodeConnection' }
+            & { edges: Array<Maybe<(
+              { __typename?: 'ImageNodeEdge' }
+              & { node?: Maybe<(
+                { __typename?: 'ImageNode' }
+                & Pick<ImageNode, 'image' | 'alt'>
+              )> }
+            )>> }
+          ) }
         )> }
       )>> }
     ) }
+  )> }
+);
+
+export type Shop_FilterQueryVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+
+export type Shop_FilterQuery = (
+  { __typename?: 'Query' }
+  & { shopList?: Maybe<(
+    { __typename?: 'ShopNodeConnection' }
+    & { edges: Array<Maybe<(
+      { __typename?: 'ShopNodeEdge' }
+      & { node?: Maybe<(
+        { __typename?: 'ShopNode' }
+        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body'>
+        & { images: (
+          { __typename?: 'ImageNodeConnection' }
+          & { edges: Array<Maybe<(
+            { __typename?: 'ImageNodeEdge' }
+            & { node?: Maybe<(
+              { __typename?: 'ImageNode' }
+              & Pick<ImageNode, 'alt' | 'name' | 'image'>
+            )> }
+          )>> }
+        ) }
+      )> }
+    )>> }
   )> }
 );
 
@@ -693,7 +853,17 @@ export type ShopListQuery = (
       { __typename?: 'ShopNodeEdge' }
       & { node?: Maybe<(
         { __typename?: 'ShopNode' }
-        & Pick<ShopNode, 'id' | 'title' | 'image' | 'url' | 'commission' | 'body'>
+        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body'>
+        & { images: (
+          { __typename?: 'ImageNodeConnection' }
+          & { edges: Array<Maybe<(
+            { __typename?: 'ImageNodeEdge' }
+            & { node?: Maybe<(
+              { __typename?: 'ImageNode' }
+              & Pick<ImageNode, 'alt' | 'name' | 'image'>
+            )> }
+          )>> }
+        ) }
       )> }
     )>> }
   )> }
@@ -753,13 +923,13 @@ export type User_IdQuery = (
       & { node?: Maybe<(
         { __typename?: 'UserNode' }
         & Pick<UserNode, 'username' | 'id'>
-        & { User: (
+        & { affiliateSet: (
           { __typename?: 'AffiliateNodeConnection' }
           & { edges: Array<Maybe<(
             { __typename?: 'AffiliateNodeEdge' }
             & { node?: Maybe<(
               { __typename?: 'AffiliateNode' }
-              & Pick<AffiliateNode, 'id' | 'title' | 'image'>
+              & Pick<AffiliateNode, 'id' | 'title'>
             )> }
           )>> }
         ) }
@@ -800,16 +970,15 @@ export const LoginDocument = gql`
       super(apollo);
     }
   }
-export const ProductDocument = gql`
-    query product($id: ID!) {
-  product(id: $id) {
-    title
-    id
-    stock
-    url
-    image
-    status
-    price
+export const ImageDocument = gql`
+    query image {
+  imageList {
+    edges {
+      node {
+        image
+        alt
+      }
+    }
   }
 }
     `;
@@ -817,8 +986,8 @@ export const ProductDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class ProductGQL extends Apollo.Query<ProductQuery, ProductQueryVariables> {
-    document = ProductDocument;
+  export class ImageGQL extends Apollo.Query<ImageQuery, ImageQueryVariables> {
+    document = ImageDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -827,17 +996,31 @@ export const ProductDocument = gql`
 export const PListDocument = gql`
     query pList($id: ID!) {
   shop(id: $id) {
-    image
     title
+    images {
+      edges {
+        node {
+          image
+          alt
+        }
+      }
+    }
     productSet {
       edges {
         node {
           title
           id
-          image
           url
           status
           price
+          images {
+            edges {
+              node {
+                image
+                alt
+              }
+            }
+          }
         }
       }
     }
@@ -855,6 +1038,41 @@ export const PListDocument = gql`
       super(apollo);
     }
   }
+export const Shop_FilterDocument = gql`
+    query shop_filter($title: String!) {
+  shopList(title: $title) {
+    edges {
+      node {
+        id
+        title
+        url
+        commission
+        body
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class Shop_FilterGQL extends Apollo.Query<Shop_FilterQuery, Shop_FilterQueryVariables> {
+    document = Shop_FilterDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const ShopListDocument = gql`
     query ShopList {
   shopList {
@@ -862,10 +1080,18 @@ export const ShopListDocument = gql`
       node {
         id
         title
-        image
         url
         commission
         body
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
+        }
       }
     }
   }
@@ -929,12 +1155,11 @@ export const User_IdDocument = gql`
     edges {
       node {
         username
-        User {
+        affiliateSet {
           edges {
             node {
               id
               title
-              image
             }
           }
         }
@@ -982,33 +1207,70 @@ export const Login = gql`
   }
 }
     `;
-export const Product = gql`
-    query product($id: ID!) {
-  product(id: $id) {
-    title
-    id
-    stock
-    url
-    image
-    status
-    price
+export const Image = gql`
+    query image {
+  imageList {
+    edges {
+      node {
+        image
+        alt
+      }
+    }
   }
 }
     `;
 export const PList = gql`
     query pList($id: ID!) {
   shop(id: $id) {
-    image
     title
+    images {
+      edges {
+        node {
+          image
+          alt
+        }
+      }
+    }
     productSet {
       edges {
         node {
           title
           id
-          image
           url
           status
           price
+          images {
+            edges {
+              node {
+                image
+                alt
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const Shop_Filter = gql`
+    query shop_filter($title: String!) {
+  shopList(title: $title) {
+    edges {
+      node {
+        id
+        title
+        url
+        commission
+        body
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
         }
       }
     }
@@ -1022,10 +1284,18 @@ export const ShopList = gql`
       node {
         id
         title
-        image
         url
         commission
         body
+        images {
+          edges {
+            node {
+              alt
+              name
+              image
+            }
+          }
+        }
       }
     }
   }
@@ -1067,12 +1337,11 @@ export const User_Id = gql`
     edges {
       node {
         username
-        User {
+        affiliateSet {
           edges {
             node {
               id
               title
-              image
             }
           }
         }
@@ -1105,6 +1374,7 @@ export const Verify = gql`
       "RecieptNode",
       "ProductNode",
       "CategoryNode",
+      "ImageNode",
       "TransactionNode"
     ]
   }

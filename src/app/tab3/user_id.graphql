@@ -9,6 +9,7 @@ userList(username:$username){
           node {
             id
             title
+            
           }
         }
       }

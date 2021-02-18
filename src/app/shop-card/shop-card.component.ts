@@ -32,6 +32,7 @@ export class ShopCardComponent implements OnInit {
       {
         this.src = next.data.imageList.edges[0].node.image ;
         this.alt = next.data.imageList.edges[0].node.alt ;
+        // console.log(this.src)
       }
     )
   }
