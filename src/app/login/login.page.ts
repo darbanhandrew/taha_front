@@ -56,11 +56,11 @@ async confirm(){
         if(next.data.tokenAuth.token !=null){
           this.login_bool = true;
           this.token = next.data.tokenAuth.token;
-          let a = next.data.tokenAuth.payload;
-          let b = JSON.stringify(a);
-          let c = JSON.parse(b);
-          this.username = c.username ;
-          this.authService.saveUserData(this.username,this.token);
+          // let a = next.data.tokenAuth.payload;
+          // let b = JSON.stringify(a);
+          // let c = JSON.parse(b);
+          // this.username = c.username ;
+          // this.authService.saveUserData(this.username,this.token);
           // console.log(localStorage.getItem('AUTHTOKEN'));
           loading.dismiss()
           this.router.navigate(['/tabs/tab3']);

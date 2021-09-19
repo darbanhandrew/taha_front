@@ -23,7 +23,7 @@
   <div *ngIf="search_bool==false" >
     <ion-row *ngFor="let item of shopNodes | async" class="ion-padding-top">
       <ion-col>
-      <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.images['edges']" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
+      <app-shop-card [title]="item.node.title" [comis]="item.node.commission" [image]="item.node.image" [url]="item.node.url" [id]="item.node.id"></app-shop-card>
     </ion-col>
     </ion-row>
   </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Pipe } from '@angular/core';
 import { map } from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import result, {VerifyGQL,VerifyMutation,User_IdGQL,User_IdQuery } from 'src/generated/graphql';
+import result, {VerifyGQL,VerifyMutation } from 'src/generated/graphql';
 import { AuthService } from '../auth.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import {AFF_ID} from './../constants'
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class Tab3Page implements OnInit {
   // profile: Observable<ProfileQuery['affiliate']>;
-  user__ : Observable<User_IdQuery['userList']['edges']>;
+  // user__ : Observable<User_IdQuery['userList']['edges']>;
   user_id: any;
   logged: boolean = false;
   name:any;
@@ -23,7 +23,7 @@ export class Tab3Page implements OnInit {
   aff_title:any;
   aff_image:any;
   aff_status:any;
-  constructor( private authService: AuthService , verifyGQL:VerifyGQL,user_idGQL:User_IdGQL,private router:Router) {
+  constructor( private authService: AuthService , verifyGQL:VerifyGQL,private router:Router) {
 
     // this.profile = profileGQL.watch(
     //   id:localStorage.getItem("AFFID")
@@ -46,26 +46,26 @@ export class Tab3Page implements OnInit {
           let c = JSON.parse(b);
           this.name = c.username;
           
-          user_idGQL.watch(
-            {
-              username:this.name,
-            }
-          ).valueChanges.pipe(map(result=>result.data.userList.edges)).subscribe(next=>
-            {
-              let data = JSON.stringify(next)
-              let a = JSON.parse(data);
-              let b = a[0];
-              let c = b.node.affiliateSet.edges[0].node;
-              console.log(b.node)
-              // localStorage.setItem(AFF_ID,c);
-              // // console.log(c)
-              this.aff_title = c.title;
-              this.aff_status = c.status;
-              // this.aff_image = b.node.User.edges[0].node.image;
-              // console.log(this.aff_image);
-              // console.log(this.aff_title)
-            }
-          );
+        //   user_idGQL.watch(
+        //     {
+        //       username:this.name,
+        //     }
+        //   ).valueChanges.pipe(map(result=>result.data.userList.edges)).subscribe(next=>
+        //     {
+        //       let data = JSON.stringify(next)
+        //       let a = JSON.parse(data);
+        //       let b = a[0];
+        //       let c = b.node.affiliateSet.edges[0].node;
+        //       console.log(b.node)
+        //       // localStorage.setItem(AFF_ID,c);
+        //       // // console.log(c)
+        //       this.aff_title = c.title;
+        //       this.aff_status = c.status;
+        //       // this.aff_image = b.node.User.edges[0].node.image;
+        //       // console.log(this.aff_image);
+        //       // console.log(this.aff_title)
+        //     }
+        //   );
         }
       }
     );

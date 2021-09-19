@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { DataService } from './../data.service';
-import { ImageQuery, ImageGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-shop-card',
@@ -13,28 +12,29 @@ import { ImageQuery, ImageGQL } from 'src/generated/graphql';
 export class ShopCardComponent implements OnInit {
 
   @Input() title:any;
-  @Input() image:Observable<ImageQuery['imageList']['edges']>;
+  // @Input() image:Observable<ImageQuery['imageList']['edges']>;
+  @Input() image: string;
   @Input() url:any;
   @Input() id:any;
   @Input() comis:any;
   src:any;
   alt:any;
   
-  constructor(private dataService: DataService,private navCtrl:NavController,imageGQL:ImageGQL) { 
+  constructor(private dataService: DataService,private navCtrl:NavController) { 
     // this.image.subscribe(
     //   next=>
     //   {
     //     console.log(next[0].node.images.edges[0].node.image)
     //   }
     // );
-    imageGQL.watch().valueChanges.subscribe(
-      next=>
-      {
-        this.src = next.data.imageList.edges[0].node.image ;
-        this.alt = next.data.imageList.edges[0].node.alt ;
-        // console.log(this.src)
-      }
-    )
+  //   imageGQL.watch().valueChanges.subscribe(
+  //     next=>
+  //     {
+  //       this.src = next.data.imageList.edges[0].node.image ;
+  //       this.alt = next.data.imageList.edges[0].node.alt ;
+  //       // console.log(this.src)
+  //     }
+  //   )
   }
 
   ngOnInit() {}

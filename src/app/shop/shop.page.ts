@@ -49,7 +49,7 @@ export class ShopPage implements OnInit {
       ).valueChanges.subscribe(next=>
         {
           this.shop_title = next.data.shop.title;
-          this.shop_image = next.data.shop.images.edges[0].node.image;
+          this.shop_image = next.data.shop.image;
           console.log(this.shop_image);
         })
       // console.log(this.filter.totring())
@@ -87,6 +87,7 @@ export class ShopPage implements OnInit {
   }
   
   async copy(text) {
+    console.log(navigator.clipboard);
     if (navigator.clipboard) {
       try {
         // console.log(this.link_state);

@@ -10,15 +10,7 @@ query ShopList{
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
     }
   }
 }

@@ -18,14 +18,8 @@ export class Tab1Page {
   shop_filtered: Observable<Shop_FilterQuery['shopList']['edges']>;
 
   constructor(shopListGQL: ShopListGQL,private shop_filterGQL:Shop_FilterGQL) {
-    this.shopNodes = shop_filterGQL.watch(
-      {
-        title:"MamadShop"
-      }
+    this.shopNodes = shopListGQL.watch(
     ).valueChanges.pipe(map(result => result.data.shopList.edges));
-    if(this.search_bool){
-      
-    }
   }
   
   

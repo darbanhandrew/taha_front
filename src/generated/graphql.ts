@@ -19,6 +19,34 @@ export type Scalars = {
    */
   DateTime: any;
   /**
+   *
+   *     Errors messages and codes mapped to
+   *     fields or non fields errors.
+   *     Example:
+   *     {
+   *         field_name: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ],
+   *         other_field: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ],
+   *         nonFieldErrors: [
+   *             {
+   *                 "message": "error message",
+   *                 "code": "error_code"
+   *             }
+   *         ]
+   *     }
+   *
+   */
+  ExpectedErrorType: any;
+  /**
    * The `GenericScalar` scalar type represents a generic
    * GraphQL scalar value that could be:
    * String, Boolean, Int, Float, List or Object.
@@ -30,34 +58,23 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  /** The ID of the object */
   shop?: Maybe<ShopNode>;
   shopList?: Maybe<ShopNodeConnection>;
-  /** The ID of the object */
-  image?: Maybe<ImageNode>;
-  imageList?: Maybe<ImageNodeConnection>;
-  /** The ID of the object */
   affiliate?: Maybe<AffiliateNode>;
   affiliateList?: Maybe<AffiliateNodeConnection>;
-  /** The ID of the object */
   product?: Maybe<ProductNode>;
   productList?: Maybe<ProductNodeConnection>;
-  /** The ID of the object */
   receipt?: Maybe<RecieptNode>;
   receiptList?: Maybe<RecieptNodeConnection>;
-  /** The ID of the object */
   transaction?: Maybe<TransactionNode>;
   transactionList?: Maybe<TransactionNodeConnection>;
-  /** The ID of the object */
   wallet?: Maybe<WalletNode>;
   walletList?: Maybe<WalletNodeConnection>;
-  /** The ID of the object */
   category?: Maybe<CategoryNode>;
   categoryList?: Maybe<CategoryNodeConnection>;
-  /** The ID of the object */
+  me?: Maybe<UserNode>;
   user?: Maybe<UserNode>;
-  userList?: Maybe<UserNodeConnection>;
-  getProduct?: Maybe<ShopNode>;
+  users?: Maybe<UserNodeConnection>;
 };
 
 
@@ -75,23 +92,6 @@ export type QueryShopListArgs = {
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryImageArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryImageListArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  wooId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -198,19 +198,20 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryUserListArgs = {
+export type QueryUsersArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
+  email?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetProductArgs = {
-  id?: Maybe<Scalars['String']>;
+  username_Icontains?: Maybe<Scalars['String']>;
+  username_Istartswith?: Maybe<Scalars['String']>;
+  isActive?: Maybe<Scalars['Boolean']>;
+  status_Archived?: Maybe<Scalars['Boolean']>;
+  status_Verified?: Maybe<Scalars['Boolean']>;
+  status_SecondaryEmail?: Maybe<Scalars['String']>;
 };
 
 export type ShopNode = Node & {
@@ -220,31 +221,15 @@ export type ShopNode = Node & {
   title: Scalars['String'];
   body: Scalars['String'];
   slug: Scalars['String'];
+  image: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   status: BaseModelStatus;
   address: Scalars['String'];
   email: Scalars['String'];
-  shopManager: UserNode;
   commission: Scalars['Int'];
-  consumerKey?: Maybe<Scalars['String']>;
-  consumerSecret?: Maybe<Scalars['String']>;
-  lastSyncTime?: Maybe<Scalars['DateTime']>;
-  images: ImageNodeConnection;
   productSet: ProductNodeConnection;
-};
-
-
-export type ShopNodeImagesArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  wooId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -274,58 +259,12 @@ export enum BaseModelStatus {
   D = 'D'
 }
 
-export type UserNode = Node & {
-  __typename?: 'UserNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  password: Scalars['String'];
-  lastLogin?: Maybe<Scalars['DateTime']>;
-  /** Designates that this user has all permissions without explicitly assigning them. */
-  isSuperuser: Scalars['Boolean'];
-  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
-  username: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  email: Scalars['String'];
-  /** Designates whether the user can log into this admin site. */
-  isStaff: Scalars['Boolean'];
-  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
-  isActive: Scalars['Boolean'];
-  dateJoined: Scalars['DateTime'];
-  shopSet: ShopNodeConnection;
-  affiliateSet: AffiliateNodeConnection;
-};
-
-
-export type UserNodeShopSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-};
-
-
-export type UserNodeAffiliateSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-};
-
-export type ShopNodeConnection = {
-  __typename?: 'ShopNodeConnection';
+export type ProductNodeConnection = {
+  __typename?: 'ProductNodeConnection';
   /** Pagination data for this connection. */
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ShopNodeEdge>>;
+  edges: Array<Maybe<ProductNodeEdge>>;
 };
 
 /** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
@@ -341,30 +280,123 @@ export type PageInfo = {
   endCursor?: Maybe<Scalars['String']>;
 };
 
-/** A Relay edge containing a `ShopNode` and its cursor. */
-export type ShopNodeEdge = {
-  __typename?: 'ShopNodeEdge';
+/** A Relay edge containing a `ProductNode` and its cursor. */
+export type ProductNodeEdge = {
+  __typename?: 'ProductNodeEdge';
   /** The item at the end of the edge */
-  node?: Maybe<ShopNode>;
+  node?: Maybe<ProductNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
 };
 
-export type AffiliateNodeConnection = {
-  __typename?: 'AffiliateNodeConnection';
+export type ProductNode = Node & {
+  __typename?: 'ProductNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  body: Scalars['String'];
+  slug: Scalars['String'];
+  image: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  status: BaseModelStatus;
+  relatedShop: ShopNode;
+  stock?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  categories: CategoryNodeConnection;
+  receiptSet: RecieptNodeConnection;
+};
+
+
+export type ProductNodeCategoriesArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type ProductNodeReceiptSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CategoryNodeConnection = {
+  __typename?: 'CategoryNodeConnection';
   /** Pagination data for this connection. */
   pageInfo: PageInfo;
   /** Contains the nodes in this connection. */
-  edges: Array<Maybe<AffiliateNodeEdge>>;
+  edges: Array<Maybe<CategoryNodeEdge>>;
 };
 
-/** A Relay edge containing a `AffiliateNode` and its cursor. */
-export type AffiliateNodeEdge = {
-  __typename?: 'AffiliateNodeEdge';
+/** A Relay edge containing a `CategoryNode` and its cursor. */
+export type CategoryNodeEdge = {
+  __typename?: 'CategoryNodeEdge';
   /** The item at the end of the edge */
-  node?: Maybe<AffiliateNode>;
+  node?: Maybe<CategoryNode>;
   /** A cursor for use in pagination */
   cursor: Scalars['String'];
+};
+
+export type CategoryNode = Node & {
+  __typename?: 'CategoryNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  path: Scalars['String'];
+  depth: Scalars['Int'];
+  numchild: Scalars['Int'];
+  name: Scalars['String'];
+  productSet: ProductNodeConnection;
+};
+
+
+export type CategoryNodeProductSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+};
+
+export type RecieptNodeConnection = {
+  __typename?: 'RecieptNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<RecieptNodeEdge>>;
+};
+
+/** A Relay edge containing a `RecieptNode` and its cursor. */
+export type RecieptNodeEdge = {
+  __typename?: 'RecieptNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<RecieptNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type RecieptNode = Node & {
+  __typename?: 'RecieptNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  relatedProduct: ProductNode;
+  totalAmount?: Maybe<Scalars['Int']>;
+  affiliateAmount?: Maybe<Scalars['Int']>;
+  relatedAffiliate: AffiliateNode;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type AffiliateNode = Node & {
@@ -374,11 +406,11 @@ export type AffiliateNode = Node & {
   title: Scalars['String'];
   body: Scalars['String'];
   slug: Scalars['String'];
+  image: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   status: BaseModelStatus;
-  user?: Maybe<UserNode>;
   walletSet: WalletNodeConnection;
   receiptSet: RecieptNodeConnection;
   transactionSet: TransactionNodeConnection;
@@ -444,202 +476,6 @@ export type WalletNode = Node & {
   amount?: Maybe<Scalars['Int']>;
 };
 
-export type RecieptNodeConnection = {
-  __typename?: 'RecieptNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<RecieptNodeEdge>>;
-};
-
-/** A Relay edge containing a `RecieptNode` and its cursor. */
-export type RecieptNodeEdge = {
-  __typename?: 'RecieptNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<RecieptNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type RecieptNode = Node & {
-  __typename?: 'RecieptNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  relatedProduct: ProductNode;
-  totalAmount?: Maybe<Scalars['Int']>;
-  affiliateAmount?: Maybe<Scalars['Int']>;
-  relatedAffiliate: AffiliateNode;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type ProductNode = Node & {
-  __typename?: 'ProductNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  body: Scalars['String'];
-  slug: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  status: BaseModelStatus;
-  relatedShop: ShopNode;
-  stock?: Maybe<Scalars['Int']>;
-  price?: Maybe<Scalars['Int']>;
-  categories: CategoryNodeConnection;
-  wooId?: Maybe<Scalars['Int']>;
-  images: ImageNodeConnection;
-  receiptSet: RecieptNodeConnection;
-};
-
-
-export type ProductNodeCategoriesArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-
-export type ProductNodeImagesArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  wooId?: Maybe<Scalars['Int']>;
-};
-
-
-export type ProductNodeReceiptSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type CategoryNodeConnection = {
-  __typename?: 'CategoryNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<CategoryNodeEdge>>;
-};
-
-/** A Relay edge containing a `CategoryNode` and its cursor. */
-export type CategoryNodeEdge = {
-  __typename?: 'CategoryNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<CategoryNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type CategoryNode = Node & {
-  __typename?: 'CategoryNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  path: Scalars['String'];
-  depth: Scalars['Int'];
-  numchild: Scalars['Int'];
-  name: Scalars['String'];
-  productSet: ProductNodeConnection;
-};
-
-
-export type CategoryNodeProductSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-};
-
-export type ProductNodeConnection = {
-  __typename?: 'ProductNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ProductNodeEdge>>;
-};
-
-/** A Relay edge containing a `ProductNode` and its cursor. */
-export type ProductNodeEdge = {
-  __typename?: 'ProductNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<ProductNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type ImageNodeConnection = {
-  __typename?: 'ImageNodeConnection';
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ImageNodeEdge>>;
-};
-
-/** A Relay edge containing a `ImageNode` and its cursor. */
-export type ImageNodeEdge = {
-  __typename?: 'ImageNodeEdge';
-  /** The item at the end of the edge */
-  node?: Maybe<ImageNode>;
-  /** A cursor for use in pagination */
-  cursor: Scalars['String'];
-};
-
-export type ImageNode = Node & {
-  __typename?: 'ImageNode';
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  image: Scalars['String'];
-  wooId?: Maybe<Scalars['Int']>;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  name?: Maybe<Scalars['String']>;
-  alt?: Maybe<Scalars['String']>;
-  originalSrc?: Maybe<Scalars['String']>;
-  shopSet: ShopNodeConnection;
-  productSet: ProductNodeConnection;
-};
-
-
-export type ImageNodeShopSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-};
-
-
-export type ImageNodeProductSetArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-};
-
 export type TransactionNodeConnection = {
   __typename?: 'TransactionNodeConnection';
   /** Pagination data for this connection. */
@@ -676,6 +512,87 @@ export enum TransactionTypes {
   M = 'M'
 }
 
+export type ShopNodeConnection = {
+  __typename?: 'ShopNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ShopNodeEdge>>;
+};
+
+/** A Relay edge containing a `ShopNode` and its cursor. */
+export type ShopNodeEdge = {
+  __typename?: 'ShopNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<ShopNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type AffiliateNodeConnection = {
+  __typename?: 'AffiliateNodeConnection';
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<AffiliateNodeEdge>>;
+};
+
+/** A Relay edge containing a `AffiliateNode` and its cursor. */
+export type AffiliateNodeEdge = {
+  __typename?: 'AffiliateNodeEdge';
+  /** The item at the end of the edge */
+  node?: Maybe<AffiliateNode>;
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+};
+
+export type UserNode = Node & {
+  __typename?: 'UserNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  lastLogin?: Maybe<Scalars['DateTime']>;
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  email: Scalars['String'];
+  /** Designates whether the user can log into this admin site. */
+  isStaff: Scalars['Boolean'];
+  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
+  isActive: Scalars['Boolean'];
+  dateJoined: Scalars['DateTime'];
+  shopSet: ShopNodeConnection;
+  User: AffiliateNodeConnection;
+  pk?: Maybe<Scalars['Int']>;
+  archived?: Maybe<Scalars['Boolean']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+};
+
+
+export type UserNodeShopSetArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+};
+
+
+export type UserNodeUserArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+};
+
 export type UserNodeConnection = {
   __typename?: 'UserNodeConnection';
   /** Pagination data for this connection. */
@@ -695,49 +612,468 @@ export type UserNodeEdge = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Obtain JSON Web Token mutation */
+  /**
+   * Register user with fields defined in the settings.
+   *
+   * If the email field of the user model is part of the
+   * registration fields (default), check if there is
+   * no user with that email or as a secondary email.
+   *
+   * If it exists, it does not register the user,
+   * even if the email field is not defined as unique
+   * (default of the default django user model).
+   *
+   * When creating the user, it also creates a `UserStatus`
+   * related to that user, making it possible to track
+   * if the user is archived, verified and has a secondary
+   * email.
+   *
+   * Send account verification email.
+   *
+   * If allowed to not verified users login, return token.
+   */
+  register?: Maybe<Register>;
+  /**
+   * Verify user account.
+   *
+   * Receive the token that was sent by email.
+   * If the token is valid, make the user verified
+   * by making the `user.status.verified` field true.
+   */
+  verifyAccount?: Maybe<VerifyAccount>;
+  /**
+   * Sends activation email.
+   *
+   * It is called resend because theoretically
+   * the first activation email was sent when
+   * the user registered.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  resendActivationEmail?: Maybe<ResendActivationEmail>;
+  /**
+   * Send password reset email.
+   *
+   * For non verified users, send an activation
+   * email instead.
+   *
+   * Accepts both primary and secondary email.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
+  /**
+   * Change user password without old password.
+   *
+   * Receive the token that was sent by email.
+   *
+   * If token and new passwords are valid, update
+   * user password and in case of using refresh
+   * tokens, revoke all of them.
+   *
+   * Also, if user has not been verified yet, verify it.
+   */
+  passwordReset?: Maybe<PasswordReset>;
+  /**
+   * Change account password when user knows the old password.
+   *
+   * A new token and refresh token are sent. User must be verified.
+   */
+  passwordChange?: Maybe<PasswordChange>;
+  /**
+   * Archive account and revoke refresh tokens.
+   *
+   * User must be verified and confirm password.
+   */
+  archiveAccount?: Maybe<ArchiveAccount>;
+  /**
+   * Delete account permanently or make `user.is_active=False`.
+   *
+   * The behavior is defined on settings.
+   * Anyway user refresh tokens are revoked.
+   *
+   * User must be verified and confirm password.
+   */
+  deleteAccount?: Maybe<DeleteAccount>;
+  /**
+   * Update user model fields, defined on settings.
+   *
+   * User must be verified.
+   */
+  updateAccount?: Maybe<UpdateAccount>;
+  /**
+   * Send activation to secondary email.
+   *
+   * User must be verified and confirm password.
+   */
+  sendSecondaryEmailActivation?: Maybe<SendSecondaryEmailActivation>;
+  /**
+   * Verify user secondary email.
+   *
+   * Receive the token that was sent by email.
+   * User is already verified when using this mutation.
+   *
+   * If the token is valid, add the secondary email
+   * to `user.status.secondary_email` field.
+   *
+   * Note that until the secondary email is verified,
+   * it has not been saved anywhere beyond the token,
+   * so it can still be used to create a new account.
+   * After being verified, it will no longer be available.
+   */
+  verifySecondaryEmail?: Maybe<VerifySecondaryEmail>;
+  /**
+   * Swap between primary and secondary emails.
+   *
+   * Require password confirmation.
+   */
+  swapEmails?: Maybe<SwapEmails>;
+  /**
+   * Obtain JSON web token for given user.
+   *
+   * Allow to perform login with different fields,
+   * and secondary email if set. The fields are
+   * defined on settings.
+   *
+   * Not verified users can login by default. This
+   * can be changes on settings.
+   *
+   * If user is archived, make it unarchive and
+   * return `unarchiving=True` on output.
+   */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
-  verifyToken?: Maybe<Verify>;
-  refreshToken?: Maybe<Refresh>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  verifyToken?: Maybe<VerifyToken>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  refreshToken?: Maybe<RefreshToken>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  revokeToken?: Maybe<RevokeToken>;
 };
 
 
-export type MutationTokenAuthArgs = {
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
   username: Scalars['String'];
+  password1: Scalars['String'];
+  password2: Scalars['String'];
+};
+
+
+export type MutationVerifyAccountArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationResendActivationEmailArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationSendPasswordResetEmailArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationPasswordResetArgs = {
+  token: Scalars['String'];
+  newPassword1: Scalars['String'];
+  newPassword2: Scalars['String'];
+};
+
+
+export type MutationPasswordChangeArgs = {
+  oldPassword: Scalars['String'];
+  newPassword1: Scalars['String'];
+  newPassword2: Scalars['String'];
+};
+
+
+export type MutationArchiveAccountArgs = {
   password: Scalars['String'];
 };
 
 
+export type MutationDeleteAccountArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationUpdateAccountArgs = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationSendSecondaryEmailActivationArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationVerifySecondaryEmailArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationSwapEmailsArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationTokenAuthArgs = {
+  password: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+};
+
+
 export type MutationVerifyTokenArgs = {
-  token?: Maybe<Scalars['String']>;
+  token: Scalars['String'];
 };
 
 
 export type MutationRefreshTokenArgs = {
+  refreshToken: Scalars['String'];
+};
+
+
+export type MutationRevokeTokenArgs = {
+  refreshToken: Scalars['String'];
+};
+
+/**
+ * Register user with fields defined in the settings.
+ *
+ * If the email field of the user model is part of the
+ * registration fields (default), check if there is
+ * no user with that email or as a secondary email.
+ *
+ * If it exists, it does not register the user,
+ * even if the email field is not defined as unique
+ * (default of the default django user model).
+ *
+ * When creating the user, it also creates a `UserStatus`
+ * related to that user, making it possible to track
+ * if the user is archived, verified and has a secondary
+ * email.
+ *
+ * Send account verification email.
+ *
+ * If allowed to not verified users login, return token.
+ */
+export type Register = {
+  __typename?: 'Register';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+
+/**
+ * Verify user account.
+ *
+ * Receive the token that was sent by email.
+ * If the token is valid, make the user verified
+ * by making the `user.status.verified` field true.
+ */
+export type VerifyAccount = {
+  __typename?: 'VerifyAccount';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Sends activation email.
+ *
+ * It is called resend because theoretically
+ * the first activation email was sent when
+ * the user registered.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+export type ResendActivationEmail = {
+  __typename?: 'ResendActivationEmail';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Send password reset email.
+ *
+ * For non verified users, send an activation
+ * email instead.
+ *
+ * Accepts both primary and secondary email.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+export type SendPasswordResetEmail = {
+  __typename?: 'SendPasswordResetEmail';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Change user password without old password.
+ *
+ * Receive the token that was sent by email.
+ *
+ * If token and new passwords are valid, update
+ * user password and in case of using refresh
+ * tokens, revoke all of them.
+ *
+ * Also, if user has not been verified yet, verify it.
+ */
+export type PasswordReset = {
+  __typename?: 'PasswordReset';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Change account password when user knows the old password.
+ *
+ * A new token and refresh token are sent. User must be verified.
+ */
+export type PasswordChange = {
+  __typename?: 'PasswordChange';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+/**
+ * Archive account and revoke refresh tokens.
+ *
+ * User must be verified and confirm password.
+ */
+export type ArchiveAccount = {
+  __typename?: 'ArchiveAccount';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Delete account permanently or make `user.is_active=False`.
+ *
+ * The behavior is defined on settings.
+ * Anyway user refresh tokens are revoked.
+ *
+ * User must be verified and confirm password.
+ */
+export type DeleteAccount = {
+  __typename?: 'DeleteAccount';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Update user model fields, defined on settings.
+ *
+ * User must be verified.
+ */
+export type UpdateAccount = {
+  __typename?: 'UpdateAccount';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Send activation to secondary email.
+ *
+ * User must be verified and confirm password.
+ */
+export type SendSecondaryEmailActivation = {
+  __typename?: 'SendSecondaryEmailActivation';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Verify user secondary email.
+ *
+ * Receive the token that was sent by email.
+ * User is already verified when using this mutation.
+ *
+ * If the token is valid, add the secondary email
+ * to `user.status.secondary_email` field.
+ *
+ * Note that until the secondary email is verified,
+ * it has not been saved anywhere beyond the token,
+ * so it can still be used to create a new account.
+ * After being verified, it will no longer be available.
+ */
+export type VerifySecondaryEmail = {
+  __typename?: 'VerifySecondaryEmail';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Swap between primary and secondary emails.
+ *
+ * Require password confirmation.
+ */
+export type SwapEmails = {
+  __typename?: 'SwapEmails';
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+};
+
+/**
+ * Obtain JSON web token for given user.
+ *
+ * Allow to perform login with different fields,
+ * and secondary email if set. The fields are
+ * defined on settings.
+ *
+ * Not verified users can login by default. This
+ * can be changes on settings.
+ *
+ * If user is archived, make it unarchive and
+ * return `unarchiving=True` on output.
+ */
+export type ObtainJsonWebToken = {
+  __typename?: 'ObtainJSONWebToken';
+  token?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  user?: Maybe<UserNode>;
+  unarchiving?: Maybe<Scalars['Boolean']>;
   refreshToken?: Maybe<Scalars['String']>;
 };
 
-/** Obtain JSON Web Token mutation */
-export type ObtainJsonWebToken = {
-  __typename?: 'ObtainJSONWebToken';
-  payload: Scalars['GenericScalar'];
-  refreshExpiresIn: Scalars['Int'];
-  token: Scalars['String'];
-  refreshToken: Scalars['String'];
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type VerifyToken = {
+  __typename?: 'VerifyToken';
+  payload?: Maybe<Scalars['GenericScalar']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
 };
 
 
-export type Verify = {
-  __typename?: 'Verify';
-  payload: Scalars['GenericScalar'];
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type RefreshToken = {
+  __typename?: 'RefreshToken';
+  token?: Maybe<Scalars['String']>;
+  payload?: Maybe<Scalars['GenericScalar']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
 };
 
-export type Refresh = {
-  __typename?: 'Refresh';
-  payload: Scalars['GenericScalar'];
-  refreshExpiresIn: Scalars['Int'];
-  token: Scalars['String'];
-  refreshToken: Scalars['String'];
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type RevokeToken = {
+  __typename?: 'RevokeToken';
+  revoked?: Maybe<Scalars['Int']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -750,24 +1086,7 @@ export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { tokenAuth?: Maybe<(
     { __typename?: 'ObtainJSONWebToken' }
-    & Pick<ObtainJsonWebToken, 'token' | 'payload'>
-  )> }
-);
-
-export type ImageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ImageQuery = (
-  { __typename?: 'Query' }
-  & { imageList?: Maybe<(
-    { __typename?: 'ImageNodeConnection' }
-    & { edges: Array<Maybe<(
-      { __typename?: 'ImageNodeEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'ImageNode' }
-        & Pick<ImageNode, 'image' | 'alt'>
-      )> }
-    )>> }
+    & Pick<ObtainJsonWebToken, 'token'>
   )> }
 );
 
@@ -780,33 +1099,14 @@ export type PListQuery = (
   { __typename?: 'Query' }
   & { shop?: Maybe<(
     { __typename?: 'ShopNode' }
-    & Pick<ShopNode, 'title'>
-    & { images: (
-      { __typename?: 'ImageNodeConnection' }
-      & { edges: Array<Maybe<(
-        { __typename?: 'ImageNodeEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'ImageNode' }
-          & Pick<ImageNode, 'image' | 'alt'>
-        )> }
-      )>> }
-    ), productSet: (
+    & Pick<ShopNode, 'title' | 'image'>
+    & { productSet: (
       { __typename?: 'ProductNodeConnection' }
       & { edges: Array<Maybe<(
         { __typename?: 'ProductNodeEdge' }
         & { node?: Maybe<(
           { __typename?: 'ProductNode' }
-          & Pick<ProductNode, 'title' | 'id' | 'url' | 'status' | 'price'>
-          & { images: (
-            { __typename?: 'ImageNodeConnection' }
-            & { edges: Array<Maybe<(
-              { __typename?: 'ImageNodeEdge' }
-              & { node?: Maybe<(
-                { __typename?: 'ImageNode' }
-                & Pick<ImageNode, 'image' | 'alt'>
-              )> }
-            )>> }
-          ) }
+          & Pick<ProductNode, 'title' | 'id' | 'url' | 'status' | 'price' | 'image'>
         )> }
       )>> }
     ) }
@@ -826,17 +1126,7 @@ export type Shop_FilterQuery = (
       { __typename?: 'ShopNodeEdge' }
       & { node?: Maybe<(
         { __typename?: 'ShopNode' }
-        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body'>
-        & { images: (
-          { __typename?: 'ImageNodeConnection' }
-          & { edges: Array<Maybe<(
-            { __typename?: 'ImageNodeEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'ImageNode' }
-              & Pick<ImageNode, 'alt' | 'name' | 'image'>
-            )> }
-          )>> }
-        ) }
+        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body' | 'image'>
       )> }
     )>> }
   )> }
@@ -853,17 +1143,7 @@ export type ShopListQuery = (
       { __typename?: 'ShopNodeEdge' }
       & { node?: Maybe<(
         { __typename?: 'ShopNode' }
-        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body'>
-        & { images: (
-          { __typename?: 'ImageNodeConnection' }
-          & { edges: Array<Maybe<(
-            { __typename?: 'ImageNodeEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'ImageNode' }
-              & Pick<ImageNode, 'alt' | 'name' | 'image'>
-            )> }
-          )>> }
-        ) }
+        & Pick<ShopNode, 'id' | 'title' | 'url' | 'commission' | 'body' | 'image'>
       )> }
     )>> }
   )> }
@@ -909,35 +1189,6 @@ export type WalletQuery = (
   )> }
 );
 
-export type User_IdQueryVariables = Exact<{
-  username: Scalars['String'];
-}>;
-
-
-export type User_IdQuery = (
-  { __typename?: 'Query' }
-  & { userList?: Maybe<(
-    { __typename?: 'UserNodeConnection' }
-    & { edges: Array<Maybe<(
-      { __typename?: 'UserNodeEdge' }
-      & { node?: Maybe<(
-        { __typename?: 'UserNode' }
-        & Pick<UserNode, 'username' | 'id'>
-        & { affiliateSet: (
-          { __typename?: 'AffiliateNodeConnection' }
-          & { edges: Array<Maybe<(
-            { __typename?: 'AffiliateNodeEdge' }
-            & { node?: Maybe<(
-              { __typename?: 'AffiliateNode' }
-              & Pick<AffiliateNode, 'id' | 'title'>
-            )> }
-          )>> }
-        ) }
-      )> }
-    )>> }
-  )> }
-);
-
 export type VerifyMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
@@ -946,8 +1197,8 @@ export type VerifyMutationVariables = Exact<{
 export type VerifyMutation = (
   { __typename?: 'Mutation' }
   & { verifyToken?: Maybe<(
-    { __typename?: 'Verify' }
-    & Pick<Verify, 'payload'>
+    { __typename?: 'VerifyToken' }
+    & Pick<VerifyToken, 'payload'>
   )> }
 );
 
@@ -955,7 +1206,6 @@ export const LoginDocument = gql`
     mutation login($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
     token
-    payload
   }
 }
     `;
@@ -970,41 +1220,11 @@ export const LoginDocument = gql`
       super(apollo);
     }
   }
-export const ImageDocument = gql`
-    query image {
-  imageList {
-    edges {
-      node {
-        image
-        alt
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ImageGQL extends Apollo.Query<ImageQuery, ImageQueryVariables> {
-    document = ImageDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const PListDocument = gql`
     query pList($id: ID!) {
   shop(id: $id) {
     title
-    images {
-      edges {
-        node {
-          image
-          alt
-        }
-      }
-    }
+    image
     productSet {
       edges {
         node {
@@ -1013,14 +1233,7 @@ export const PListDocument = gql`
           url
           status
           price
-          images {
-            edges {
-              node {
-                image
-                alt
-              }
-            }
-          }
+          image
         }
       }
     }
@@ -1048,15 +1261,7 @@ export const Shop_FilterDocument = gql`
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -1083,15 +1288,7 @@ export const ShopListDocument = gql`
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -1149,37 +1346,6 @@ export const WalletDocument = gql`
       super(apollo);
     }
   }
-export const User_IdDocument = gql`
-    query user_id($username: String!) {
-  userList(username: $username) {
-    edges {
-      node {
-        username
-        affiliateSet {
-          edges {
-            node {
-              id
-              title
-            }
-          }
-        }
-        id
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class User_IdGQL extends Apollo.Query<User_IdQuery, User_IdQueryVariables> {
-    document = User_IdDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const VerifyDocument = gql`
     mutation verify($token: String!) {
   verifyToken(token: $token) {
@@ -1203,19 +1369,6 @@ export const Login = gql`
     mutation login($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
     token
-    payload
-  }
-}
-    `;
-export const Image = gql`
-    query image {
-  imageList {
-    edges {
-      node {
-        image
-        alt
-      }
-    }
   }
 }
     `;
@@ -1223,14 +1376,7 @@ export const PList = gql`
     query pList($id: ID!) {
   shop(id: $id) {
     title
-    images {
-      edges {
-        node {
-          image
-          alt
-        }
-      }
-    }
+    image
     productSet {
       edges {
         node {
@@ -1239,14 +1385,7 @@ export const PList = gql`
           url
           status
           price
-          images {
-            edges {
-              node {
-                image
-                alt
-              }
-            }
-          }
+          image
         }
       }
     }
@@ -1263,15 +1402,7 @@ export const Shop_Filter = gql`
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -1287,15 +1418,7 @@ export const ShopList = gql`
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -1331,26 +1454,6 @@ export const Wallet = gql`
   }
 }
     `;
-export const User_Id = gql`
-    query user_id($username: String!) {
-  userList(username: $username) {
-    edges {
-      node {
-        username
-        affiliateSet {
-          edges {
-            node {
-              id
-              title
-            }
-          }
-        }
-        id
-      }
-    }
-  }
-}
-    `;
 export const Verify = gql`
     mutation verify($token: String!) {
   verifyToken(token: $token) {
@@ -1368,14 +1471,13 @@ export const Verify = gql`
   "possibleTypes": {
     "Node": [
       "ShopNode",
-      "UserNode",
-      "AffiliateNode",
-      "WalletNode",
-      "RecieptNode",
       "ProductNode",
       "CategoryNode",
-      "ImageNode",
-      "TransactionNode"
+      "RecieptNode",
+      "AffiliateNode",
+      "WalletNode",
+      "TransactionNode",
+      "UserNode"
     ]
   }
 };

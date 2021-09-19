@@ -10,15 +10,7 @@ query shop_filter($title: String!){
         url
         commission
         body
-        images {
-          edges {
-            node {
-              alt
-              name
-              image
-            }
-          }
-        }
+        image
     }
   }
 }
